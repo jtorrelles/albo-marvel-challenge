@@ -1,6 +1,7 @@
 package com.test.albo.mx.marvelchallenge;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,9 @@ public class ColaboratorsControllerTest {
 
 	@Test
 	public void getColaborators_ShouldBeOK() throws Exception {
-		mockMvc.perform(get("/colaborators/{name}", "capamerica")).andExpect(status().isOk());
+		mockMvc.perform(get("/colaborators/{name}", "capamerica")).andExpect(status().isOk())
+				.andExpect(jsonPath("$.last_sync").isNotEmpty()).andExpect(jsonPath("$.editors").isArray())
+				.andExpect(jsonPath("$.writers").isArray()).andExpect(jsonPath("$.colorists").isArray());
 	}
 
 }
