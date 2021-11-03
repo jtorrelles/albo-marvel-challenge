@@ -10,7 +10,7 @@ public class ColaboratorsServiceImpl implements ColaboratorsService {
 
 	@Override
 	public ColaboratorsDto getColaborators(String characterName) {
-		return null;
+		return new ColaboratorsDto();
 	}
 
 }
