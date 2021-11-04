@@ -13,4 +13,10 @@ public class ColaboratorsControllerExceptionHandler {
 	public String colaboratorNoContent(ColaboratorsNoContentException exception) {
 		return null;
 	}
+
+	@ExceptionHandler(ColaboratorsNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public String colaboratorNotFound(ColaboratorsNotFoundException exception) {
+		return null;
+	}
 }
