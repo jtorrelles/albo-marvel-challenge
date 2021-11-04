@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class ColaboratorsControllerExceptionHandler {
+public class GenericControllerExceptionHandler {
 
-	@ExceptionHandler(ColaboratorsNoContentException.class)
+	@ExceptionHandler(GenericNoContentException.class)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public String colaboratorNoContent(ColaboratorsNoContentException exception) {
+	public String colaboratorNoContent(GenericNoContentException exception) {
 		return null;
 	}
 
-	@ExceptionHandler(ColaboratorsNotFoundException.class)
+	@ExceptionHandler(GenericNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public String colaboratorNotFound(ColaboratorsNotFoundException exception) {
+	public String colaboratorNotFound(GenericNotFoundException exception) {
 		return null;
 	}
 }
