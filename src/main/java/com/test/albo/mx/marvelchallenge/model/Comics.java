@@ -25,10 +25,6 @@ public class Comics {
 
 	private String name;
 
-	/*@JoinTable(name = "characters_comics", joinColumns = @JoinColumn(name = "comic_id"), inverseJoinColumns = @JoinColumn(name = "character_id"))
-	@OneToMany
-	private List<Characters> characters;*/
-
 	@JoinTable(name = "comics_colaborators", joinColumns = @JoinColumn(name = "comic_id"), inverseJoinColumns = @JoinColumn(name = "colaborator_id"))
 	@OneToMany
 	private List<Colaborators> colaborators;
