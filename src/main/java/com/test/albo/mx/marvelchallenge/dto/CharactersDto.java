@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,13 +19,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder(value = { "last_sync", "characters" }, alphabetic = false)
+@Schema(description = "Esquema que representa el listado de personajes que han colaborado con el heroe")
 public class CharactersDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
 	@JsonProperty("last_sync")
+	@Schema(description = "Fecha de ultima sincronizacion con la fuente de Marvel en formato dd/MM/yyy hh:mm:ss", example = "04/11/2021 12:00:00")
 	private LocalDateTime lastSync;
 
+	@Schema(description = "Lista de los personajes que han colaborado con el heroe")
 	private List<PartnersDto> characters;
 }

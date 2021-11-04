@@ -22,6 +22,17 @@ public class CharactersServiceImpl implements CharactersService {
 		this.charactersRepository = charactersRepository;
 	}
 
+	/**
+	 * Este metodo obtiene desde la bd el listado de personajes que han participado
+	 * en conjunto con el heroe de busqueda, incluye el listado de comics donde han
+	 * participado
+	 * 
+	 * String characterName: Corresponde al nombre del heroe ingresado por el
+	 * usuario
+	 * 
+	 * return CharactersDto: COrresponde a la representacion que espera el cliente
+	 * del listado de caracteres
+	 */
 	@Override
 	public CharactersDto getCharacters(String characterName) {
 		CharactersDto response = new CharactersDto();
@@ -60,15 +71,19 @@ public class CharactersServiceImpl implements CharactersService {
 				});
 			});
 
+			// Se itera el resultado para crea los objetos que representaran los datos en la
+			// respuesta al usuario
 			var partners = new ArrayList<PartnersDto>();
 			test.forEach((partner, comics) -> {
 				partners.add(new PartnersDto(partner, comics));
 			});
 
+			// se asignan los valores de los atributos correspondientes
 			response.setCharacters(partners);
 			response.setLastSync(character.getLastSync());
 
 		} else {
+			// si no existe el personaje ingresado por el usuario se genera un excepcion
 			throw new GenericNotFoundException();
 		}
 		return response;

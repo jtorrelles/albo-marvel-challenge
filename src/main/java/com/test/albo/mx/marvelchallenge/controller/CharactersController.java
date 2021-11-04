@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.test.albo.mx.marvelchallenge.dto.CharactersDto;
 import com.test.albo.mx.marvelchallenge.service.CharactersService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("characters")
 public class CharactersController {
@@ -20,6 +26,11 @@ public class CharactersController {
 		this.charactersServices = charactersService;
 	}
 
+	@Operation(summary = "Obtener listado personjes y comics asociados al heroe", description = "Personajes")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Personajes encontrados", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = CharactersDto.class)) }),
+			@ApiResponse(responseCode = "404", description = "Super heroes no encontrados", content = @Content) })
 	@GetMapping("/{character}")
 	public ResponseEntity<CharactersDto> getCharacters(@PathVariable("character") String characterName) {
 		return new ResponseEntity<>(charactersServices.getCharacters(characterName), HttpStatus.OK);

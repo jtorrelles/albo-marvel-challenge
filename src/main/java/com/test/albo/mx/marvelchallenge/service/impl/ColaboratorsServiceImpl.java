@@ -20,6 +20,14 @@ public class ColaboratorsServiceImpl implements ColaboratorsService {
 		this.charactersRepository = charactersRepository;
 	}
 
+	/**
+	 * Esta metodo se usa para obtener desde la bd el listado de colaboradores que
+	 * ha tenido el personaje en sus comics
+	 * 
+	 * String characterName: Corresponde al nombre del personaje
+	 * 
+	 * retrun ColaboratorDTO: clase que representa el objeto de colaboradores
+	 */
 	@Override
 	public ColaboratorsDto getColaborators(String characterName) {
 		ColaboratorsDto response = new ColaboratorsDto();
@@ -51,11 +59,16 @@ public class ColaboratorsServiceImpl implements ColaboratorsService {
 				});
 			});
 
+			/**
+			 * Se asigna el valor correspondiente a cada atributo en el objeto que obtendra
+			 * el cliente
+			 */
 			response.setLastSync(character.getLastSync());
 			response.setWriters(writers);
 			response.setColorists(colorists);
 			response.setEditors(editors);
 		} else {
+			// Si no existe el carcater se dispara excepcion
 			throw new GenericNotFoundException();
 		}
 
