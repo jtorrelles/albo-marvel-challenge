@@ -42,10 +42,10 @@ public class CharactersServiceTest {
 
 		assertNotNull(characters);
 		assertNotNull(characters.getLastSync());
-		assertEquals(characters.getCharacters().size(), 3);
-		assertEquals(characters.getCharacters().get(0).getComics(), 4);
-		assertEquals(characters.getCharacters().get(1).getComics().size(), 1);
-		assertEquals(characters.getCharacters().get(2).getComics().size(), 2);
+		assertEquals(characters.getCharacters().size(), 4);
+		assertEquals(characters.getCharacters().get(0).getComics().size(), 4);
+		assertEquals(characters.getCharacters().get(1).getComics().size(), 2);
+		assertEquals(characters.getCharacters().get(2).getComics().size(), 3);
 
 	}
 
@@ -71,6 +71,7 @@ public class CharactersServiceTest {
 			private static final long serialVersionUID = 1L;
 			{
 				add(new Comics(5L, "Comic5", null, null));
+				add(new Comics(3L, "Comic3", null, null));
 			}
 		};
 
@@ -79,6 +80,7 @@ public class CharactersServiceTest {
 			{
 				add(new Comics(6L, "Comic6", null, null));
 				add(new Comics(7L, "Comic7", null, null));
+				add(new Comics(3L, "Comic3", null, null));
 			}
 		};
 
@@ -88,6 +90,7 @@ public class CharactersServiceTest {
 				add(new CharacterPartners(1L, "Partner1", comicsPartner1));
 				add(new CharacterPartners(2L, "Partner2", comicsPartner2));
 				add(new CharacterPartners(3L, "Partner3", comicsPartner3));
+				add(new CharacterPartners(4L, "Partner3", comicsPartner1));
 			}
 		};
 
