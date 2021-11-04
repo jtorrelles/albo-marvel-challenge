@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.test.albo.mx.marvelchallenge.controller.ColaboratorsController;
 import com.test.albo.mx.marvelchallenge.dto.ColaboratorsDto;
-import com.test.albo.mx.marvelchallenge.exception.ColaboratorsNoContentException;
+import com.test.albo.mx.marvelchallenge.exception.GenericNotFoundException;
 import com.test.albo.mx.marvelchallenge.service.ColaboratorsService;
 
 @ExtendWith(SpringExtension.class)
@@ -44,11 +44,11 @@ public class ColaboratorsControllerTest {
 	}
 
 	@Test
-	public void getColaborators_ShouldBeNoContent() throws Exception {
+	public void getColaborators_ShouldBeNotFound() throws Exception {
 
-		when(colaboratorService.getColaborators(anyString())).thenThrow(new ColaboratorsNoContentException());
+		when(colaboratorService.getColaborators(anyString())).thenThrow(new GenericNotFoundException());
 
-		mockMvc.perform(get("/colaborators/{name}", "capamerica")).andExpect(status().isNoContent());
+		mockMvc.perform(get("/colaborators/{name}", "capamerica")).andExpect(status().isNotFound());
 	}
 
 }

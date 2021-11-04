@@ -18,7 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.test.albo.mx.marvelchallenge.enums.ColaboratorRole;
-import com.test.albo.mx.marvelchallenge.exception.ColaboratorsNotFoundException;
+import com.test.albo.mx.marvelchallenge.exception.GenericNotFoundException;
 import com.test.albo.mx.marvelchallenge.model.Characters;
 import com.test.albo.mx.marvelchallenge.model.Colaborators;
 import com.test.albo.mx.marvelchallenge.model.Comics;
@@ -52,7 +52,7 @@ public class ColaboratorsServiceTest {
 	@Test
 	public void findColaborators_returnNotFound() throws Exception {
 		when(charactersRepository.findByShortName(anyString())).thenReturn(Optional.empty());
-		assertThrows(ColaboratorsNotFoundException.class, () -> colaboratorService.getColaborators(anyString()));
+		assertThrows(GenericNotFoundException.class, () -> colaboratorService.getColaborators(anyString()));
 	}
 
 	private Characters getMockCharacters() {
