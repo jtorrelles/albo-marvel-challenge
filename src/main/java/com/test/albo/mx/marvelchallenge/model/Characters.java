@@ -12,12 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Characters {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,15 +31,12 @@ public class Characters {
 	private String fullName;
 	@Column(name = "marvel_id")
 	private long marvelId;
-	
+
+	private boolean sync;
 	@Column(name = "last_sync")
 	private LocalDateTime lastSync;
 
 	@OneToMany
 	@JoinTable(name = "characters_comics", joinColumns = @JoinColumn(name = "character_id"), inverseJoinColumns = @JoinColumn(name = "comic_id"))
 	private List<Comics> comics;
-
-	@JoinTable(name = "characters_comics_character_partners", joinColumns = @JoinColumn(name = "character_id"), inverseJoinColumns = @JoinColumn(name = "character_partner_id"))
-	@OneToMany
-	private List<CharacterPartners> partners;
 }

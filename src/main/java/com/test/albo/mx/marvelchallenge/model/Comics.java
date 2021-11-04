@@ -29,7 +29,7 @@ public class Comics {
 	@OneToMany
 	private List<Colaborators> colaborators;
 
-	@JoinTable(name = "characters_comics_character_partners", joinColumns = @JoinColumn(name = "comic_id"), inverseJoinColumns = @JoinColumn(name = "character_partner_id"))
+	@JoinTable(name = "characters_comics", joinColumns = @JoinColumn(name = "comic_id"), inverseJoinColumns = @JoinColumn(name = "character_id"))
 	@OneToMany
-	private List<CharacterPartners> partners;
+	private List<Characters> characters;
 }
