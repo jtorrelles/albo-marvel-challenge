@@ -18,7 +18,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.test.albo.mx.marvelchallenge.exception.GenericNotFoundException;
-import com.test.albo.mx.marvelchallenge.model.CharacterPartners;
 import com.test.albo.mx.marvelchallenge.model.Characters;
 import com.test.albo.mx.marvelchallenge.model.Comics;
 import com.test.albo.mx.marvelchallenge.repository.CharactersRepository;
@@ -36,16 +35,14 @@ public class CharactersServiceTest {
 
 	@Test
 	public void findColaborators_returnColaboratorsInfo() throws Exception {
+
 		when(charactersRepository.findByShortName(anyString())).thenReturn(Optional.of(getMockCharacters()));
 
 		var characters = charactersService.getCharacters(anyString());
 
 		assertNotNull(characters);
 		assertNotNull(characters.getLastSync());
-		assertEquals(characters.getCharacters().size(), 4);
-		assertEquals(characters.getCharacters().get(0).getComics().size(), 4);
-		assertEquals(characters.getCharacters().get(1).getComics().size(), 2);
-		assertEquals(characters.getCharacters().get(2).getComics().size(), 3);
+		assertEquals(characters.getCharacters().size(), 2);
 
 	}
 
@@ -57,50 +54,46 @@ public class CharactersServiceTest {
 
 	private Characters getMockCharacters() {
 
-		var comicsPartner1 = new ArrayList<Comics>() {
+		var characters1 = new ArrayList<Characters>() {
 			private static final long serialVersionUID = 1L;
 			{
-				add(new Comics(1L, "Comic1", null, null));
-				add(new Comics(2L, "Comic2", null, null));
-				add(new Comics(3L, "Comic3", null, null));
-				add(new Comics(4L, "Comic4", null, null));
+				add(new Characters(1L, "char1", "Character1", 123L, true, null, null));
 			}
 		};
 
-		var comicsPartner2 = new ArrayList<Comics>() {
+		var characters2 = new ArrayList<Characters>() {
 			private static final long serialVersionUID = 1L;
 			{
-				add(new Comics(5L, "Comic5", null, null));
-				add(new Comics(3L, "Comic3", null, null));
+				add(new Characters(1L, "char1", "Character1", 123L, true, null, null));
+				add(new Characters(2L, "part2", "Partner2", 321L, true, null, null));
+				add(new Characters(3L, "part3", "Partner3", 789L, true, null, null));
 			}
 		};
 
-		var comicsPartner3 = new ArrayList<Comics>() {
+		var characters3 = new ArrayList<Characters>() {
 			private static final long serialVersionUID = 1L;
 			{
-				add(new Comics(6L, "Comic6", null, null));
-				add(new Comics(7L, "Comic7", null, null));
-				add(new Comics(3L, "Comic3", null, null));
+				add(new Characters(1L, "char1", "Character1", 123L, true, null, null));
+				add(new Characters(3L, "part3", "Partner3", 789L, true, null, null));
 			}
 		};
 
-		var partners = new ArrayList<CharacterPartners>() {
+		var comics = new ArrayList<Comics>() {
 			private static final long serialVersionUID = 1L;
 			{
-				add(new CharacterPartners(1L, "Partner1", comicsPartner1));
-				add(new CharacterPartners(2L, "Partner2", comicsPartner2));
-				add(new CharacterPartners(3L, "Partner3", comicsPartner3));
-				add(new CharacterPartners(4L, "Partner3", comicsPartner1));
+				add(new Comics(1L, "Comic1", null, characters1));
+				add(new Comics(2L, "Comic2", null, characters2));
+				add(new Comics(3L, "Comic3", null, characters3));
 			}
 		};
 
 		var characters = new Characters();
 		characters.setId(1L);
 		characters.setShortName("char1");
-		characters.setFullName("Character 1");
+		characters.setFullName("Character1");
 		characters.setMarvelId(1234L);
 		characters.setLastSync(LocalDateTime.now());
-		characters.setPartners(partners);
+		characters.setComics(comics);
 
 		return characters;
 	}

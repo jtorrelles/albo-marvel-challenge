@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,13 +37,7 @@ public class CharactersControllerTest {
 	@Test
 	public void getCharacters_ShouldBeOK() throws Exception {
 
-		when(charactersService.getCharacters(anyString()))
-				.thenReturn(new CharactersDto(LocalDateTime.now(), new ArrayList<PartnersDto>() {
-					private static final long serialVersionUID = 1L;
-					{
-						add(new PartnersDto("Character1", new ArrayList<String>()));
-					}
-				}));
+		when(charactersService.getCharacters(anyString())).thenReturn(getMockedCharactersResult());
 
 		mockMvc.perform(get("/characters/{name}", "capamerica")).andExpect(status().isOk())
 				.andExpect(jsonPath("$.last_sync").isNotEmpty()).andExpect(jsonPath("$.characters").exists())
@@ -56,6 +51,19 @@ public class CharactersControllerTest {
 		when(charactersService.getCharacters(anyString())).thenThrow(new GenericNotFoundException());
 
 		mockMvc.perform(get("/characters/{name}", "capamerica")).andExpect(status().isNotFound());
+	}
+
+	private CharactersDto getMockedCharactersResult() {
+		var result = new CharactersDto();
+
+		var partners = new ArrayList<PartnersDto>();
+		var partner = new PartnersDto("Partner1", List.of("Comic1"));
+		partners.add(partner);
+
+		result.setCharacters(partners);
+		result.setLastSync(LocalDateTime.now());
+
+		return result;
 	}
 
 }
