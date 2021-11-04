@@ -1,0 +1,2 @@
+INSERT INTO characters(short_name, full_name, marvel_id, sync, last_sync) VALUES('capamerica', 'Captain America', 1009220, true, null);
+INSERT INTO characters(short_name, full_name, marvel_id, sync, last_sync) VALUES('ironman', 'Iron Man', true, 1009368, null);
