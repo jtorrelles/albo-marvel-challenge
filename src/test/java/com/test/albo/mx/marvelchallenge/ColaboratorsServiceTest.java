@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -86,14 +87,17 @@ public class ColaboratorsServiceTest {
 			}
 		};
 
-		var comics = new ArrayList<Comics>() {
-			private static final long serialVersionUID = 1L;
-			{
-				add(new Comics(1L, "Comic1", colaboratorsComic1, null));
-				add(new Comics(2L, "Comic2", colaboratorsComic2, null));
-				add(new Comics(3L, "Comic3", colaboratorsComic3, null));
-			}
-		};
+		var comic1 = new Comics("Comic1");
+		comic1.setColaborators(new HashSet<Colaborators>(colaboratorsComic1));
+		var comic2 = new Comics("Comic2");
+		comic2.setColaborators(new HashSet<Colaborators>(colaboratorsComic2));
+		var comic3 = new Comics("Comic3");
+		comic3.setColaborators(new HashSet<Colaborators>(colaboratorsComic3));
+
+		var comics = new ArrayList<Comics>();
+		comics.add(comic1);
+		comics.add(comic2);
+		comics.add(comic3);
 
 		var characters = new Characters();
 		characters.setId(1L);
@@ -101,7 +105,7 @@ public class ColaboratorsServiceTest {
 		characters.setFullName("Character 1");
 		characters.setMarvelId(1234L);
 		characters.setLastSync(LocalDateTime.now());
-		characters.setComics(comics);
+		characters.setComics(new HashSet<Comics>(comics));
 
 		return characters;
 	}

@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -43,6 +44,8 @@ public class CharactersServiceTest {
 		assertNotNull(characters);
 		assertNotNull(characters.getLastSync());
 		assertEquals(characters.getCharacters().size(), 2);
+		assertEquals(characters.getCharacters().get(0).getComics().size(), 2);
+		assertEquals(characters.getCharacters().get(1).getComics().size(), 1);
 
 	}
 
@@ -57,35 +60,38 @@ public class CharactersServiceTest {
 		var characters1 = new ArrayList<Characters>() {
 			private static final long serialVersionUID = 1L;
 			{
-				add(new Characters(1L, "char1", "Character1", 123L, true, null, null));
+				add(new Characters("char1", "Character1", 123L, true, null));
 			}
 		};
 
 		var characters2 = new ArrayList<Characters>() {
 			private static final long serialVersionUID = 1L;
 			{
-				add(new Characters(1L, "char1", "Character1", 123L, true, null, null));
-				add(new Characters(2L, "part2", "Partner2", 321L, true, null, null));
-				add(new Characters(3L, "part3", "Partner3", 789L, true, null, null));
+				add(new Characters("char1", "Character1", 123L, true, null));
+				add(new Characters("part2", "Partner2", 321L, true, null));
+				add(new Characters("part3", "Partner3", 789L, true, null));
 			}
 		};
 
 		var characters3 = new ArrayList<Characters>() {
 			private static final long serialVersionUID = 1L;
 			{
-				add(new Characters(1L, "char1", "Character1", 123L, true, null, null));
-				add(new Characters(3L, "part3", "Partner3", 789L, true, null, null));
+				add(new Characters("char1", "Character1", 123L, true, null));
+				add(new Characters("part3", "Partner3", 789L, true, null));
 			}
 		};
 
-		var comics = new ArrayList<Comics>() {
-			private static final long serialVersionUID = 1L;
-			{
-				add(new Comics(1L, "Comic1", null, characters1));
-				add(new Comics(2L, "Comic2", null, characters2));
-				add(new Comics(3L, "Comic3", null, characters3));
-			}
-		};
+		var comic1 = new Comics("Comic1");
+		comic1.setCharacters(new HashSet<Characters>(characters1));
+		var comic2 = new Comics("Comic2");
+		comic2.setCharacters(new HashSet<Characters>(characters2));
+		var comic3 = new Comics("Comic3");
+		comic3.setCharacters(new HashSet<Characters>(characters3));
+
+		var comics = new ArrayList<Comics>();
+		comics.add(comic1);
+		comics.add(comic2);
+		comics.add(comic3);
 
 		var characters = new Characters();
 		characters.setId(1L);
@@ -93,7 +99,7 @@ public class CharactersServiceTest {
 		characters.setFullName("Character1");
 		characters.setMarvelId(1234L);
 		characters.setLastSync(LocalDateTime.now());
-		characters.setComics(comics);
+		characters.setComics(new HashSet<Comics>(comics));
 
 		return characters;
 	}
