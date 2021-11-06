@@ -19,4 +19,10 @@ public class GenericControllerExceptionHandler {
 	public String colaboratorNotFound(GenericNotFoundException exception) {
 		return null;
 	}
+
+	@ExceptionHandler(ExternalServiceException.class)
+	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+	public String externalServiceException(ExternalServiceException exception) {
+		return "No es posible interpretar la api externa";
+	}
 }
