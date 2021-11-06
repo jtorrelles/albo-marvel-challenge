@@ -40,7 +40,7 @@ public class CharactersServiceImpl implements CharactersService {
 		if (result.isPresent()) {
 
 			var character = result.get();
-			Map<String, List<String>> test = new HashMap<>();
+			Map<String, List<String>> characters = new HashMap<>();
 
 			/**
 			 * Se ubican los comics del caracter (personaje) y luego por cada comic se
@@ -54,18 +54,16 @@ public class CharactersServiceImpl implements CharactersService {
 				comic.getCharacters().stream().forEach(partner -> {
 					var name = partner.getFullName();
 					if (!name.equals(character.getFullName())) {
-						if (test.containsKey(name)) {
-							var comicsPartner = test.get(name);
+						if (characters.containsKey(name)) {
+							var comicsPartner = characters.get(name);
 							if (!comicsPartner.contains(comicName)) {
 								comicsPartner.add(comicName);
-								test.replace(name, comicsPartner);
+								characters.replace(name, comicsPartner);
 							}
 						} else {
-							test.put(name, new ArrayList<String>() {
-								{
-									add(comicName);
-								}
-							});
+							List<String> newComic = new ArrayList<>();
+							newComic.add(comicName);
+							characters.put(name, newComic);
 						}
 					}
 				});
@@ -74,7 +72,7 @@ public class CharactersServiceImpl implements CharactersService {
 			// Se itera el resultado para crea los objetos que representaran los datos en la
 			// respuesta al usuario
 			var partners = new ArrayList<PartnersDto>();
-			test.forEach((partner, comics) -> {
+			characters.forEach((partner, comics) -> {
 				partners.add(new PartnersDto(partner, comics));
 			});
 
