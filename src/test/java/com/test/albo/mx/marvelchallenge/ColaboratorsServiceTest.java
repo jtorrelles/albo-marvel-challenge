@@ -3,7 +3,6 @@ package com.test.albo.mx.marvelchallenge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
@@ -38,9 +37,10 @@ public class ColaboratorsServiceTest {
 
 	@Test
 	public void findColaborators_returnColaboratorsInfo() throws Exception {
-		when(charactersRepository.findByShortName(anyString())).thenReturn(Optional.of(getMockCharacters()));
+		when(charactersRepository.findByShortNameAndSync("capamerica", true))
+				.thenReturn(Optional.of(getMockCharacters()));
 
-		var colaborators = colaboratorService.getColaborators(anyString());
+		var colaborators = colaboratorService.getColaborators("capamerica");
 
 		assertNotNull(colaborators);
 		assertNotNull(colaborators.getLastSync());
@@ -52,8 +52,8 @@ public class ColaboratorsServiceTest {
 
 	@Test
 	public void findColaborators_returnNotFound() throws Exception {
-		when(charactersRepository.findByShortName(anyString())).thenReturn(Optional.empty());
-		assertThrows(GenericNotFoundException.class, () -> colaboratorService.getColaborators(anyString()));
+		when(charactersRepository.findByShortNameAndSync("blackphanter", true)).thenReturn(Optional.empty());
+		assertThrows(GenericNotFoundException.class, () -> colaboratorService.getColaborators("blackphanter"));
 	}
 
 	private Characters getMockCharacters() {
