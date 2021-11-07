@@ -27,10 +27,14 @@ La api expone un swagger en la siguiente url:
 
 Se detalle aca el listado de los endpoints disponibles:
 
+- Colaborators: 
+
 > GET http://localhost/colaborators/capamerica
 
-> GET http://localhost/characters/capamerica
-
 > GET http://localhost/colaborators/ironman
+
+- Characters: 
+
+> GET http://localhost/characters/capamerica
 
 > GET http://localhost/characters/ironman
