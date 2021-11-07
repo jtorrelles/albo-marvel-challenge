@@ -2,10 +2,8 @@
 
  Servicio encargado de mantener actualizado diariamente el listado de colaboradores y personajes de marvel relacionados con los Super Heroes Capitan America y Iron Man con la intencion de ofrecer un vializacion simple de los datos y asi pagar regalias a cada colaborador.
 
- Para esta demo en terminos de practicidad se decidio utilizar una BD H2 en memoria por lo cual no se necesitara instalar un motor de base de datos.
-
 ## Requisitos de Instalacion
-Se debe tener instalado Java 11 para su ejecucion, para terminos de simplicidad se utilizo una base de datos en memoria.
+Se debe tener instalado Java 11 para su ejecucion. Para esta solucion en terminos de simplicidad se utilizo una BD H2 en memoria por lo cual no se necesitara instalar un motor de base de datos.
 
 ## Instalacion
 Se deben seguir los siguientes pasos:
@@ -30,7 +28,9 @@ La api expone un swagger en la siguiente url:
 Se detalle aca el listado de los endpoints disponibles:
 
 > GET http://localhost/colaborators/capamerica
+
 > GET http://localhost/characters/capamerica
 
 > GET http://localhost/colaborators/ironman
+
 > GET http://localhost/characters/ironman
