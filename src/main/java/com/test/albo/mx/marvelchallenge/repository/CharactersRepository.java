@@ -8,8 +8,10 @@ import org.springframework.data.repository.CrudRepository;
 import com.test.albo.mx.marvelchallenge.model.Characters;
 
 public interface CharactersRepository extends CrudRepository<Characters, Long> {
-	// buscar un personaje por el nombre corto. Ejemplo (capamerica)
-	Optional<Characters> findByShortName(String shortName);
+
+	// buscar un personaje por el nombre corto y que tenga habilitada la
+	// sincronizacion. Ejemplo (capamerica)
+	Optional<Characters> findByShortNameAndSync(String shortName, boolean sync);
 
 	// buscar un personaje por el nombre completo. Ejemplo (Captain America)
 	Optional<Characters> findByFullName(String fullName);
