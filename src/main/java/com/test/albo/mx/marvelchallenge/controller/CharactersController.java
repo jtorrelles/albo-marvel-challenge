@@ -15,7 +15,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("characters")
 public class CharactersController {
@@ -33,6 +35,7 @@ public class CharactersController {
 			@ApiResponse(responseCode = "404", description = "Super heroes no encontrados", content = @Content) })
 	@GetMapping("/{character}")
 	public ResponseEntity<CharactersDto> getCharacters(@PathVariable("character") String characterName) {
+		log.info("reciendo request para obtener personajes del heroe {}", characterName);
 		return new ResponseEntity<>(charactersServices.getCharacters(characterName), HttpStatus.OK);
 	}
 }

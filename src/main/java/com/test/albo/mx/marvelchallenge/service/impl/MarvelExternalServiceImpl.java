@@ -78,7 +78,6 @@ public class MarvelExternalServiceImpl implements MarvelExternalService {
 		log.debug("se genera hash {} con los valores timestamp {}", md5Hash, timestampValue);
 
 		List<Characters> syncCharacters = characterRepository.findBySync(true);
-		log.info("list {}", syncCharacters);
 		for (Characters characters : syncCharacters) {
 			// se ejecuta la llamada a la pai externa
 			getMarvelApi(characters);
