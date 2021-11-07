@@ -3,6 +3,7 @@ package com.test.albo.mx.marvelchallenge.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.test.albo.mx.marvelchallenge.dto.ColaboratorsDto;
@@ -29,10 +30,11 @@ public class ColaboratorsServiceImpl implements ColaboratorsService {
 	 * retrun ColaboratorDTO: clase que representa el objeto de colaboradores
 	 */
 	@Override
+	@Cacheable("colaborators")
 	public ColaboratorsDto getColaborators(String characterName) {
 		ColaboratorsDto response = new ColaboratorsDto();
 
-		var result = charactersRepository.findByShortName(characterName);
+		var result = charactersRepository.findByShortNameAndSync(characterName, true);
 
 		if (result.isPresent()) {
 			var character = result.get();

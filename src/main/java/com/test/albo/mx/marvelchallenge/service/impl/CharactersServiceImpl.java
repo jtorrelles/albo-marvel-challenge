@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.test.albo.mx.marvelchallenge.dto.CharactersDto;
@@ -34,9 +35,10 @@ public class CharactersServiceImpl implements CharactersService {
 	 * del listado de caracteres
 	 */
 	@Override
+	@Cacheable("characters")
 	public CharactersDto getCharacters(String characterName) {
 		CharactersDto response = new CharactersDto();
-		var result = charactersRepository.findByShortName(characterName);
+		var result = charactersRepository.findByShortNameAndSync(characterName, true);
 		if (result.isPresent()) {
 
 			var character = result.get();
