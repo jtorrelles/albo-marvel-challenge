@@ -1,3 +1,6 @@
+![Java](https://img.shields.io/badge/JAVA-11-blue)
+![Spring](https://img.shields.io/badge/SPRING--BOOT-2.5.6-blue)
+
 # API Marvel Challenge
 
  Servicio encargado de mantener actualizado diariamente el listado de colaboradores y personajes de marvel relacionados con los Super Heroes Capitan America y Iron Man con la intencion de ofrecer un vializacion simple de los datos y asi pagar regalias a cada colaborador.
@@ -18,7 +21,7 @@ bash assemble.sh
 - Ejemplo:
 
 ```sh
-bash assemble.sh 51f70bb07e8fae9bb1f9328532eca6f8 dff9dc72b32645303726a4184a79c23a1e0469ee
+bash avengers.sh 51f70bb07e8fae9bb1f9328532eca6f8 dff9dc72b32645303726a4184a79c23a1e0469ee
 ```
 
 ## Documentacion
