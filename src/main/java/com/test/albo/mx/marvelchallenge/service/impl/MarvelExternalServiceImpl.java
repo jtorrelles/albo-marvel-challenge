@@ -9,13 +9,13 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.test.albo.mx.marvelchallenge.enums.ColaboratorRole;
-import com.test.albo.mx.marvelchallenge.exception.ExternalServiceException;
 import com.test.albo.mx.marvelchallenge.model.Characters;
 import com.test.albo.mx.marvelchallenge.model.Colaborators;
 import com.test.albo.mx.marvelchallenge.model.Comics;
@@ -65,6 +65,7 @@ public class MarvelExternalServiceImpl implements MarvelExternalService {
 	 * la bd deacuerdo a esa informacion
 	 */
 	@Override
+	@Scheduled(cron = "${app.periodical.expression}")
 	public void synchronizeData() {
 		log.info("iniciando proceso de sincronizacion....");
 		log.info("momento de ejecucion {}....", LocalDateTime.now());
@@ -85,6 +86,7 @@ public class MarvelExternalServiceImpl implements MarvelExternalService {
 			characters.setLastSync(LocalDateTime.now());
 			characterRepository.save(characters);
 		}
+
 	}
 
 	/**
@@ -105,10 +107,11 @@ public class MarvelExternalServiceImpl implements MarvelExternalService {
 
 		try {
 			log.info("character {}", character.getFullName());
+
 			response = restTemplate.getForObject(externalApiUrl, JsonNode.class, character.getMarvelId(),
 					timestampValue, publicKey, md5Hash);
 
-			log.info("api response {}", response);
+			log.debug("api response {}", response);
 
 			/**
 			 * Se valida que la respuesta de la api externa contenga los elementos de
@@ -139,11 +142,9 @@ public class MarvelExternalServiceImpl implements MarvelExternalService {
 				});
 			} else {
 				log.error("No es posible interpretar la respuesta de la api, {}", response.toString());
-				throw new ExternalServiceException();
 			}
 		} catch (RestClientException exception) {
 			log.error("error {}", exception.getMessage());
-			throw new ExternalServiceException();
 		}
 	}
 
@@ -161,9 +162,9 @@ public class MarvelExternalServiceImpl implements MarvelExternalService {
 
 		characters.forEach(character -> {
 			var characterName = character.get("name").textValue();
-			log.info("procesando personaje {}, en el comic {}", characterName, comicDb.getName());
+			log.debug("procesando personaje {}, en el comic {}", characterName, comicDb.getName());
 			var optionalCharacter = characterRepository.findByFullName(characterName);
-			//si no existe en la bd se crea la nueva entidad
+			// si no existe en la bd se crea la nueva entidad
 			if (!optionalCharacter.isPresent()) {
 				comicDb.addCharacter(new Characters(characterName, characterName, 0L, false, null));
 			} else {
@@ -196,10 +197,10 @@ public class MarvelExternalServiceImpl implements MarvelExternalService {
 			var role = creator.get("role").textValue().toUpperCase().trim();
 
 			if (Arrays.stream(roles).anyMatch(role::contains)) {
-				log.info("procesando colaborador {}, l rol {} en el comic {}", name, role, comicDb.getName());
+				log.debug("procesando colaborador {}, l rol {} en el comic {}", name, role, comicDb.getName());
 				var internalRole = getRole(role);
 				var optionalColaborator = colaboratorRepository.findByNameAndRole(name, internalRole);
-				//si no existe en la bd se crea la nueva entidad
+				// si no existe en la bd se crea la nueva entidad
 				if (!optionalColaborator.isPresent()) {
 					comicDb.addColaborator(new Colaborators(name, internalRole));
 				} else {
